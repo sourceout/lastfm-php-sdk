@@ -1,8 +1,24 @@
+build:
+  nodes:
+    analysis:
+      dependencies:
+        after:
+          - composer require --dev squizlabs/php_codesniffer:2.9
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+          - command: phpcs-run
+            use_website_config: false
+          - command: 'vendor/bin/phpunit --coverage-clover=some-file'
+            coverage:
+                file: 'some-file'
+                format: 'clover'
 filter:
     excluded_paths: [tests/*]
 checks:
     php:
         code_rating: true
+        duplication: true
         remove_extra_empty_lines: true
         remove_php_closing_tag: true
         remove_trailing_whitespace: true
