@@ -1,6 +1,8 @@
 <?php
 namespace Sourceout\LastFm\Providers;
 
+use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
+
 interface GeoInterface
 {
     /**
@@ -10,6 +12,7 @@ interface GeoInterface
      * @param integer $page
      * @param integer $limit
      * @return mixed
+     * @throws LastFmException
      */
     public function getTopArtists(string $country, int $page = 1, int $limit = 50);
 
@@ -21,6 +24,7 @@ interface GeoInterface
      * @param integer $limit
      * @param integer $page
      * @return mixed
+     * @throws LastFmException
      */
     public function getTopTracks(string $country, string $location = null, int $limit = 50, int $page = 1);
 }
