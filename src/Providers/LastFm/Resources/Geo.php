@@ -1,6 +1,7 @@
 <?php
 namespace Sourceout\LastFm\Providers\LastFm\Resources;
 
+use Sourceout\LastFm\Http\Response;
 use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
@@ -52,6 +53,8 @@ class Geo implements GeoInterface
                     'format' => 'json'
                 ]
             );
+
+            return Response::send($response);
         } catch (\Exception $e) {
             throw new LastFmException($e->getMessage(), $e->getCode(), $e);
         }
@@ -77,6 +80,7 @@ class Geo implements GeoInterface
                     'format' => 'json'
                 ]
             );
+            return Response::send($response);
         } catch (\Exception $e) {
             throw new LastFmException($e->getMessage(), $e->getCode(), $e);
         }

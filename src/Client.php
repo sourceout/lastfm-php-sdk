@@ -3,6 +3,7 @@ namespace Sourceout\LastFm;
 
 use Sourceout\LastFm\Services\ServiceFactory;
 use Sourceout\LastFm\Providers\ResourcefulProviderInterface;
+use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
 
 class Client
 {
@@ -23,19 +24,21 @@ class Client
     /**
      * Add ability to add new custom providers
      *
-     * @param  string ...$providers
+     * @param  array $providers
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function registerCustomProviders(string ...$providers) : void
+    public function registerCustomProviders(array $providers) : void
     {
         foreach($providers as $provider) {
-            if (!class_exists($provider)) {
-                throw new \InvalidArgumentException(
+            if (!class_exists($provider)
+                && ! ($provider instanceof ResourcefulProviderInterface)
+            ) {
+                throw new IncomptabileProviderTypeException(
                     "{$provider} does not exists"
                 );
             }
-            $this->providers = array_push($this->providers, $provider);
+            array_push($this->providers, $provider);
         }
     }
 

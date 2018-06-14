@@ -11,13 +11,10 @@ class LastFm implements ResourcefulProviderInterface
     /** @var array */
     protected $config;
 
-    /** @var string */
-    private $apiKey;
-
     /** @inheritDoc */
     public function __construct(array $config)
     {
-        $this->apiKey = $config["api_key"];
+        $this->config = $config;
     }
 
     /** @inheritDoc */
@@ -40,7 +37,7 @@ class LastFm implements ResourcefulProviderInterface
      */
     public function setApiKey(string $apiKey) : void
     {
-        $this->apiKey = $apiKey;
+        $this->config['api_key'] = $apiKey;
     }
 
     /**
@@ -50,7 +47,7 @@ class LastFm implements ResourcefulProviderInterface
      */
     public function getApiKey() : string
     {
-        return $this->apiKey;
+        return $this->config['api_key'];
     }
 
     /** @inheritDoc */
@@ -69,6 +66,6 @@ class LastFm implements ResourcefulProviderInterface
     public function getGeoResource() : GeoInterface
     {
         $http = new Http();
-        return new Geo($http, $this->apiKey);
+        return new Geo($http, $this->config['api_key']);
     }
 }
