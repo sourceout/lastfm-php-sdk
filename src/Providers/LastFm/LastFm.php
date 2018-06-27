@@ -3,10 +3,11 @@ namespace Sourceout\LastFm\Providers\LastFm;
 
 use Sourceout\LastFm\Http\Http;
 use Sourceout\LastFm\Providers\GeoInterface;
+use Sourceout\LastFm\Providers\ProviderInterface;
+use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
-use Sourceout\LastFm\Providers\ResourcefulProviderInterface;
 
-class LastFm implements ResourcefulProviderInterface
+class LastFm implements ProviderInterface, ResourceInterface
 {
     /** @var array */
     protected $config;
@@ -66,6 +67,6 @@ class LastFm implements ResourcefulProviderInterface
     public function getGeoResource() : GeoInterface
     {
         $http = new Http();
-        return new Geo($http, $this->config['api_key']);
+        return new Geo($this, $http);
     }
 }

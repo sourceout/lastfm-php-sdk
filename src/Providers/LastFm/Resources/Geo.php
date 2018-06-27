@@ -4,18 +4,19 @@ namespace Sourceout\LastFm\Providers\LastFm\Resources;
 use Sourceout\LastFm\Http\Response;
 use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\GeoInterface;
+use Sourceout\LastFm\Providers\ProviderInterface;
 use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
 
 class Geo implements GeoInterface
 {
-    public const TOP_ARTISTS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists";
-    public const TOP_TRACKS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks";
+    const TOP_ARTISTS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists";
+    const TOP_TRACKS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks";
 
     /** @var HttpInterface */
     private $http;
 
-    /** @var string */
-    private $apiKey;
+    /** @var ProviderInterface */
+    private $provider;
 
     /** @var string */
     private $format;
@@ -23,15 +24,18 @@ class Geo implements GeoInterface
     /**
      * Constructor for Geo Class
      *
+     * @param ProviderInterface $provider
      * @param HttpInterface $http
-     * @param string $apiKey
      * @param string $format
      * @todo Support for $format is yet not enabled, add that in future
      */
-    public function __construct(HttpInterface $http, string $apiKey, $format = 'json')
-    {
+    public function __construct(
+        ProviderInterface $provider,
+        HttpInterface $http,
+        $format = 'json'
+    ) {
         $this->http = $http;
-        $this->apiKey = $apiKey;
+        $this->provider = $provider;
         $this->format = $format;
     }
 
@@ -46,7 +50,7 @@ class Geo implements GeoInterface
                 'GET',
                 Geo::TOP_ARTISTS_URI,
                 [
-                    'api_key' => $this->apiKey,
+                    'api_key' => $this->provider->getConfig()['api_key'],
                     'country' => $country,
                     'limit' => $limit,
                     'page' => $page,
@@ -72,7 +76,7 @@ class Geo implements GeoInterface
                 'GET',
                 Geo::TOP_TRACKS_URI,
                 [
-                    'api_key' => $this->apiKey,
+                    'api_key' => $this->provider->getConfig()['api_key'],
                     'country' => $country,
                     'location' => $location,
                     'limit' => $limit,

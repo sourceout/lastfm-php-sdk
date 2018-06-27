@@ -4,6 +4,8 @@ namespace Sourceout\LastFm\Tests;
 use PHPUnit\Framework\TestCase;
 use Sourceout\LastFm\Client;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
+use Sourceout\LastFm\Providers\ResourceInterface;
+use Sourceout\LastFm\Exception\ProviderDoesNotExistException;
 use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
 
 /**
@@ -53,7 +55,7 @@ class ClientTest extends TestCase
     /** @test */
     public function it_returns_exception_in_case_of_non_existing_provider()
     {
-        $this->expectException(IncomptabileProviderTypeException::class);
+        $this->expectException(ProviderDoesNotExistException::class);
 
         $client = new Client();
 
@@ -76,6 +78,41 @@ class ClientTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_exceptions_in_case_of_incompatible_provider()
+    {
+        $this->expectException(IncomptabileProviderTypeException::class);
+
+        $client = new Client();
+
+        $defaultProviders = [
+            \Sourceout\LastFm\Providers\LastFm\LastFm::class
+        ];
+
+        $anonymousClass = get_class(
+            new class('argument') {
+                public $property;
+                public function __construct($argument)
+                {
+                    $this->property = $argument;
+                }
+            }
+        );
+        $client->registerCustomProviders(
+            [
+                $anonymousClass
+            ]
+        );
+
+        $providers = $client->getRegisteredProviders();
+        foreach ($providers as $provider) {
+            $this->assertTrue(
+                in_array($provider, $defaultProviders)
+            );
+        }
+
+    }
+
+    /** @test */
     public function it_returns_an_instance_of_service_factory()
     {
         $client = new Client();
@@ -85,5 +122,28 @@ class ClientTest extends TestCase
             \Sourceout\LastFm\Services\ServiceFactory::class,
             $serviceFactory
         );
+    }
+
+    /** @test */
+    public function it_throws_exception_in_case_of_incompatible_provider()
+    {
+        $this->expectException(IncomptabileProviderTypeException::class);
+
+        $client = new Client();
+
+        $provider =
+            (new class ('argument') implements ResourceInterface
+            {
+                public $property;
+                public function __construct($argument)
+                {
+                    $this->property = $argument;
+                }
+
+                public function getGeoResource() {
+                    return '';
+                }
+            });
+        $serviceFactory = $client->getServiceFactory($provider);
     }
 }

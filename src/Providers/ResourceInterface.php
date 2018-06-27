@@ -8,5 +8,5 @@ interface ResourceInterface
      *
      * @return GeoInterface
      */
-    public function getGeoResource() : GeoInterface;
+    public function getGeoResource();
 }
