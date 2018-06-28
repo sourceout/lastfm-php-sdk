@@ -7,6 +7,7 @@ use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Exception\ProviderDoesNotExistException;
 use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
+use Sourceout\LastFm\Exception\UnregisteredProviderException;
 
 /**
  * @group unit
@@ -78,7 +79,7 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exceptions_in_case_of_incompatible_provider()
+    public function it_throws_exception_in_case_of_incompatible_provider()
     {
         $this->expectException(IncomptabileProviderTypeException::class);
 
@@ -125,12 +126,13 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_in_case_of_incompatible_provider()
+    public function it_throws_exception_in_case_of_unregistered_provider()
     {
-        $this->expectException(IncomptabileProviderTypeException::class);
+        $this->expectException(UnregisteredProviderException::class);
 
         $client = new Client();
 
+        // An anonymous class that is not a valid provider type
         $provider =
             (new class ('argument') implements ResourceInterface
             {

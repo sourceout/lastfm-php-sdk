@@ -1,12 +1,13 @@
 <?php
 namespace Sourceout\LastFm;
 
+use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Services\ServiceFactory;
 use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Providers\ProviderInterface;
 use Sourceout\LastFm\Exception\ProviderDoesNotExistException;
+use Sourceout\LastFm\Exception\UnregisteredProviderException;
 use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
-use Sourceout\LastFm\Providers\GeoInterface;
 
 class Client
 {
@@ -15,7 +16,7 @@ class Client
         \Sourceout\LastFm\Providers\LastFm\LastFm::class
     ];
 
-    private $providerImplements = [
+    private $providerInterfaces = [
         \Sourceout\LastFm\Providers\ProviderInterface::class,
         \Sourceout\LastFm\Providers\ResourceInterface::class,
     ];
@@ -36,7 +37,8 @@ class Client
      * @param  array $providers
      *
      * @return void
-     * @throws \InvalidArgumentException
+     * @throws ProviderDoesNotExistsException
+     * @throws IncomptabileProviderTypeException
      */
     public function registerCustomProviders(array $providers) : void
     {
@@ -47,9 +49,9 @@ class Client
                 );
             } else if (
                 ! (array_intersect(
-                        $this->providerImplements,
+                        $this->providerInterfaces,
                         class_implements($provider)
-                    ) == $this->providerImplements
+                    ) == $this->providerInterfaces
                 )
             ) {
                 throw new IncomptabileProviderTypeException(
@@ -66,19 +68,18 @@ class Client
      * @param ResourceInterface $provider
      *
      * @return ServiceFactory
+     * @throws UnregisteredProviderException
      */
     public function getServiceFactory(
         ResourceInterface $provider
     ) : ServiceFactory
     {
-        if (
-            $provider instanceof ResourceInterface
-            && $provider instanceof ProviderInterface
-        ) {
-            return new ServiceFactory($provider);
+        $class = get_class($provider);
+        if (! in_array($class, $this->getRegisteredProviders() )) {
+            throw new UnregisteredProviderException(
+                "Provider {$class} is not registered"
+            );
         }
-        throw new IncomptabileProviderTypeException(
-            "Provider ".  get_class($provider) ." is not compatible"
-        );
+        return new ServiceFactory($provider);
     }
 }
