@@ -11,7 +11,7 @@ interface GeoInterface
      * @param string $country
      * @param integer $page
      * @param integer $limit
-     * @return mixed
+     * @return \Tightenco\Collect\Support\Collection
      * @throws LastFmException
      */
     public function getTopArtists(string $country, int $page = 1, int $limit = 50);
@@ -23,7 +23,7 @@ interface GeoInterface
      * @param string $location
      * @param integer $limit
      * @param integer $page
-     * @return mixed
+     * @return \Tightenco\Collect\Support\Collection
      * @throws LastFmException
      */
     public function getTopTracks(string $country, string $location = null, int $limit = 50, int $page = 1);
