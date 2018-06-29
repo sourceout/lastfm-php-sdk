@@ -34,7 +34,7 @@ class Http implements HttpInterface
             return $this->getHttpClient()->sendRequest($request);
         } catch (TransferException $e) {
             throw new HttpTransferException(
-                "Error while requesting data". $e->getMessage(),
+                "Error while requesting data".$e->getMessage(),
                 $e->getCode(),
                 $e
             );

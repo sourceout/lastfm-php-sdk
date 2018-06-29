@@ -42,13 +42,13 @@ class Client
      */
     public function registerCustomProviders(array $providers) : void
     {
-        foreach($providers as $provider) {
+        foreach ($providers as $provider) {
             if (!class_exists($provider)) {
                 throw new ProviderDoesNotExistException(
                     "Provider {$provider} does not exists"
                 );
             } else if (
-                ! (array_intersect(
+                !(array_intersect(
                         $this->providerInterfaces,
                         class_implements($provider)
                     ) == $this->providerInterfaces
@@ -75,7 +75,7 @@ class Client
     ) : ServiceFactory
     {
         $class = get_class($provider);
-        if (! in_array($class, $this->getRegisteredProviders() )) {
+        if (!in_array($class, $this->getRegisteredProviders())) {
             throw new UnregisteredProviderException(
                 "Provider {$class} is not registered"
             );

@@ -9,7 +9,7 @@ class GeoService extends AbstractService
      * @param string $country
      * @param integer $page
      * @param integer $limit
-     * @return mixed
+     * @return \Tightenco\Collect\Support\Collection
      */
     public function getTopArtists(
         string $country,
@@ -29,7 +29,7 @@ class GeoService extends AbstractService
      * @param string $location
      * @param integer $limit
      * @param integer $page
-     * @return mixed
+     * @return \Tightenco\Collect\Support\Collection
      */
     public function getTopTracks(
         string $country,
