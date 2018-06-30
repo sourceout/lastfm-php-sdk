@@ -8,6 +8,10 @@ build:
         override:
           - command: phpcs-run
             use_website_config: false
+          - command: 'vendor/bin/phpunit --coverage-clover=coverage-report'
+                coverage:
+                    file: 'coverage-report'
+                    format: 'clover'
 filter:
     excluded_paths: [tests/*]
 checks:
