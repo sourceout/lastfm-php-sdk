@@ -1,19 +1,19 @@
 <?php
 namespace Sourceout\LastFm\Services;
 
-use Sourceout\LastFm\Providers\ResourceInterface;
+use Sourceout\LastFm\Providers\ProviderInterface;
 
 abstract class AbstractService
 {
-    /** @var ResourceInterface */
+    /** @var ProviderInterface */
     protected $provider;
 
     /**
      * constructor for the service
      *
-     * @param ResourceInterface $provider
+     * @param ProviderInterface $provider
      */
-    public function __construct(ResourceInterface $provider)
+    public function __construct(ProviderInterface $provider)
     {
         $this->provider = $provider;
     }
@@ -21,10 +21,10 @@ abstract class AbstractService
     /**
      * set the provider for the service
      *
-     * @param ResourceInterface $provider
+     * @param ProviderInterface $provider
      * @return void
      */
-    public function setProvider(ResourceInterface $provider) : void
+    public function setProvider(ProviderInterface $provider) : void
     {
         $this->provider = $provider;
     }

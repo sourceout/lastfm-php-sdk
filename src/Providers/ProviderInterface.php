@@ -31,4 +31,11 @@ interface ProviderInterface
      * @return string
      */
     public function getProviderName() : string;
+
+    /**
+     * Returns back an instance of Resource Factory
+     *
+     * @return ResourceInterface
+     */
+    public function getResource();
 }

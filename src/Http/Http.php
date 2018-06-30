@@ -32,7 +32,7 @@ class Http implements HttpInterface
         $request = $this->getMessageFactory()->createRequest($method, $uri, $headers, $body, $protocolVersion);
         try {
             return $this->getHttpClient()->sendRequest($request);
-        } catch (TransferException $e) {
+        } catch (\Exception $e) {
             throw new HttpTransferException(
                 "Error while requesting data".$e->getMessage(),
                 $e->getCode(),
@@ -54,10 +54,7 @@ class Http implements HttpInterface
      */
     public function getHttpClient() : HttpClient
     {
-        if ($this->httpClient === null) {
-            $this->httpClient = HttpClientDiscovery::find();
-        }
-
+        $this->httpClient = $this->httpClient ?: HttpClientDiscovery::find();
         return $this->httpClient;
     }
 
@@ -79,9 +76,7 @@ class Http implements HttpInterface
      */
     public function getMessageFactory() : MessageFactory
     {
-        if ($this->messageFactory === null) {
-            $this->messageFactory = MessageFactoryDiscovery::find();
-        }
+        $this->messageFactory = $this->messageFactory ?: MessageFactoryDiscovery::find();
         return $this->messageFactory;
     }
 }

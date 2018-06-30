@@ -6,8 +6,9 @@ use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Providers\ProviderInterface;
 use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
+use Sourceout\LastFm\Providers\LastFm\Resources\Resource;
 
-class LastFm implements ProviderInterface, ResourceInterface
+class LastFm implements ProviderInterface
 {
     /** @var array */
     protected $config;
@@ -64,9 +65,8 @@ class LastFm implements ProviderInterface, ResourceInterface
     }
 
     /** @inheritDoc */
-    public function getGeoResource() : GeoInterface
+    public function getResource() : ResourceInterface
     {
-        $http = new Http();
-        return new Geo($this, $http);
+        return new Resource($this, new Http());
     }
 }

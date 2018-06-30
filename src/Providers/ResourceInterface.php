@@ -4,9 +4,9 @@ namespace Sourceout\LastFm\Providers;
 interface ResourceInterface
 {
     /**
-     * Return back an instance of Geo resource for the provider
+     * Returns back an instance of Geo Resource
      *
      * @return GeoInterface
      */
-    public function getGeoResource();
+    public function geo() : GeoInterface;
 }

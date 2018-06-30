@@ -1,19 +1,19 @@
 <?php
 namespace Sourceout\LastFm\Services;
 
-use Sourceout\LastFm\Providers\ResourceInterface;
+use Sourceout\LastFm\Providers\ProviderInterface;
 
 class ServiceFactory
 {
-    /** @var ResourceInterface */
+    /** @var ProviderInterface */
     private $provider;
 
     /**
      * Constructor method for the client
      *
-     * @param ResourceInterface $provider
+     * @param ProviderInterface $provider
      */
-    public function __construct(ResourceInterface $provider)
+    public function __construct(ProviderInterface $provider)
     {
         $this->provider = $provider;
     }

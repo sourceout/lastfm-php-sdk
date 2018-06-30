@@ -18,7 +18,8 @@ class GeoService extends AbstractService
     )
     {
         return $this->provider
-            ->getGeoResource()
+            ->getResource()
+            ->geo()
             ->getTopArtists($country, $page, $limit);
     }
 
@@ -38,7 +39,8 @@ class GeoService extends AbstractService
         int $page = 1
     ) {
         return $this->provider
-            ->getGeoResource()
+            ->getResource()
+            ->geo()
             ->getTopTracks($country, $location, $limit, $page);
     }
 }

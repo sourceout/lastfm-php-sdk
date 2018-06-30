@@ -1,10 +1,12 @@
 <?php
 namespace Sourceout\LastFm\Tests;
 
-use PHPUnit\Framework\TestCase;
+use Mockery;
 use Sourceout\LastFm\Client;
+use PHPUnit\Framework\TestCase;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
-use Sourceout\LastFm\Providers\ResourceInterface;
+use Sourceout\LastFm\Providers\ProviderInterface;
+use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
 use Sourceout\LastFm\Exception\ProviderDoesNotExistException;
 use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
 use Sourceout\LastFm\Exception\UnregisteredProviderException;
@@ -132,18 +134,42 @@ class ClientTest extends TestCase
 
         $client = new Client();
 
+        $resource = Mockery::mock(Geo::class)->makePartial();
+
         // An anonymous class that is not a valid provider type
         $provider =
-            (new class ('argument') implements ResourceInterface
+            (new class ($resource) implements ProviderInterface
             {
                 public $property;
-                public function __construct($argument)
+
+                public function __construct($resource)
                 {
-                    $this->property = $argument;
+                    $this->property = $resource;
                 }
 
-                public function getGeoResource() {
-                    return '';
+                public function getConfig() : array
+                {
+                    return [];
+                }
+
+                public function setConfig(array $config) : void
+                {
+
+                }
+
+                public function getVersion() : string
+                {
+                    return '2.0';
+                }
+
+                public function getProviderName() : string
+                {
+                    return 'Mock Provider';
+                }
+
+                public function getResource()
+                {
+                    return $this->property;
                 }
             });
         $serviceFactory = $client->getServiceFactory($provider);

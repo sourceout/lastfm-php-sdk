@@ -4,6 +4,7 @@ namespace Sourceout\LastFm\Tests\Providers\LastFm;
 use PHPUnit\Framework\TestCase;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\GeoInterface;
+use Sourceout\LastFm\Providers\ResourceInterface;
 
 class LastFmTest extends TestCase
 {
@@ -46,10 +47,10 @@ class LastFmTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_geo_resource()
+    public function it_returns_resource_instance()
     {
-        $geoResource = $this->lastFm->getGeoResource();
-        $this->assertTrue($geoResource instanceof GeoInterface);
+        $resource = $this->lastFm->getResource();
+        $this->assertTrue($resource instanceof ResourceInterface);
     }
 
     public function tearDown()

@@ -3,9 +3,10 @@ namespace Sourceout\LastFm\Tests\Services;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Services\GeoService;
+use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
+use Sourceout\LastFm\Providers\LastFm\Resources\Resource;
 
 class GeoServiceTest extends TestCase
 {
@@ -15,16 +16,19 @@ class GeoServiceTest extends TestCase
         $this->provider = Mockery::mock(
             LastFm::class,
             ['api_key' => 'secret_api_key']
-        );
+        )->makePartial();
     }
 
     /** @test */
     public function it_returns_top_artists_by_country()
     {
-        $geoResource = Mockery::mock(Geo::class)->makePartial();
-        $geoResource->shouldReceive('getTopArtists')->andReturn('some response');
+        $geo = Mockery::mock(Geo::class)->makePartial();
+        $geo->shouldReceive(['getTopArtists' => 'some response']);
 
-        $this->provider->shouldReceive('getGeoResource')->andReturn($geoResource);
+        $resource = Mockery::mock(Resource::class)->makePartial();
+        $resource->shouldReceive(['geo' => $geo]);
+
+        $this->provider->shouldReceive('getResource')->andReturn($resource);
 
         $geoService = new GeoService($this->provider);
 
@@ -39,10 +43,13 @@ class GeoServiceTest extends TestCase
     /** @test */
     public function it_returns_top_tracks_by_country()
     {
-        $geoResource = Mockery::mock(Geo::class)->makePartial();
-        $geoResource->shouldReceive('getTopTracks')->andReturn('some response');
+        $geo = Mockery::mock(Geo::class)->makePartial();
+        $geo->shouldReceive(['getTopTracks' => 'some response']);
 
-        $this->provider->shouldReceive('getGeoResource')->andReturn($geoResource);
+        $resource = Mockery::mock(Resource::class)->makePartial();
+        $resource->shouldReceive(['geo' => $geo]);
+
+        $this->provider->shouldReceive('getResource')->andReturn($resource);
 
         $geoService = new GeoService($this->provider);
 

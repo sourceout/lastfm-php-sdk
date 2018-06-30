@@ -3,8 +3,8 @@ namespace Sourceout\LastFm;
 
 use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Services\ServiceFactory;
-use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Providers\ProviderInterface;
+use Sourceout\LastFm\Providers\ResourceInterface;
 use Sourceout\LastFm\Exception\ProviderDoesNotExistException;
 use Sourceout\LastFm\Exception\UnregisteredProviderException;
 use Sourceout\LastFm\Exception\IncomptabileProviderTypeException;
@@ -16,9 +16,9 @@ class Client
         \Sourceout\LastFm\Providers\LastFm\LastFm::class
     ];
 
+    /** @var array a list of provider interfaces */
     private $providerInterfaces = [
         \Sourceout\LastFm\Providers\ProviderInterface::class,
-        \Sourceout\LastFm\Providers\ResourceInterface::class,
     ];
 
     /**
@@ -65,13 +65,13 @@ class Client
     /**
      * Returns an instance of ServiceFactory
      *
-     * @param ResourceInterface $provider
+     * @param ProviderInterface $provider
      *
      * @return ServiceFactory
      * @throws UnregisteredProviderException
      */
     public function getServiceFactory(
-        ResourceInterface $provider
+        ProviderInterface $provider
     ) : ServiceFactory
     {
         $class = get_class($provider);
