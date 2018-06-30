@@ -27,17 +27,22 @@ class GeoTest extends TestCase
         $this->provider = new LastFm(['api_key' => 'some secret api key']);
 
         $this->http = new Http();
+        /** @var ResponseFactory $response */
         $response = Mockery::mock(ResponseFactory::class);
         $client = new Client($response);
 
-        $response = Mockery::mock(ResponseInterface::class, ResponseInterface::class);
+        /** @var ResponseInterface $response */
+        $response = Mockery::mock(ResponseInterface::class);
         $client->setDefaultResponse($response);
 
+        /** @var RequestInterface $request */
         $request = Mockery::mock(RequestInterface::class, RequestInterface::class);
+
+        /** @var MessageFactory|mixed $messageFactory */
         $messageFactory = Mockery::mock(MessageFactory::class);
         $messageFactory->shouldReceive([
-            'createRequest' => $request
-        ]);
+                'createRequest' => $request
+            ]);
 
         $this->http->setHttpClient($client);
         $this->http->setMessageFactory($messageFactory);
@@ -65,6 +70,7 @@ class GeoTest extends TestCase
         $response = $geo->getTopArtists('some country');
         $this->assertInstanceOf(Collection::class, $response);
     }
+
     /** @test */
     public function it_makes_request_for_top_tracks()
     {

@@ -11,6 +11,7 @@ use Http\Message\ResponseFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Sourceout\LastFm\Exception\HttpTransferException;
+use PHPUnit\Framework\ExpectationFailedException;
 
 class HttpTest extends TestCase
 {
@@ -19,19 +20,27 @@ class HttpTest extends TestCase
     public function setUp()
     {
         $this->http = new Http();
+        /** @var ResponseFactory $response */
         $response = Mockery::mock(ResponseFactory::class);
         $client = new Client($response);
 
-        $response = Mockery::mock(ResponseInterface::class, ResponseInterface::class);
+        /** @var ResponseInterface $response */
+        $response = Mockery::mock(ResponseInterface::class);
         $client->setDefaultResponse($response);
 
-        $request = Mockery::mock(RequestInterface::class, RequestInterface::class);
-        $messageFactory = Mockery::mock(MessageFactory::class);
+        /** @var RequestInterface $request */
+        $request = Mockery::mock(RequestInterface::class);
+
+        /** @var MessageFactory|mixed $messageFactory */
+        $messageFactory = Mockery::mock(
+            MessageFactory::class, MessageFactory::class);
+
         $messageFactory->shouldReceive([
-            'createRequest' => $request
+                'createRequest' => $request
         ]);
 
         $this->http->setHttpClient($client);
+
         $this->http->setMessageFactory($messageFactory);
     }
 

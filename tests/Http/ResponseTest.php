@@ -12,6 +12,7 @@ class ResponseTest extends TestCase
     /** @test */
     public function it_returns_back_collection_as_response()
     {
+        /** @var ResponseInterface $response */
         $response = Mockery::mock(ResponseInterface::class);
         $this->assertInstanceOf(Collection::class, Response::send($response));
     }
@@ -21,6 +22,7 @@ class ResponseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
+        /** @var ResponseInterface $response */
         $response = Mockery::mock(ResponseInterface::class);
         $this->assertInstanceOf(Collection::class, Response::send($response, 'xml'));
     }
