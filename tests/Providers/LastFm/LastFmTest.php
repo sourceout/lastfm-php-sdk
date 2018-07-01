@@ -1,9 +1,11 @@
 <?php
 namespace Sourceout\LastFm\Tests\Providers\LastFm;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use Sourceout\LastFm\Providers\LastFm\LastFm;
+use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\GeoInterface;
+use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\ResourceInterface;
 
 class LastFmTest extends TestCase
@@ -49,7 +51,8 @@ class LastFmTest extends TestCase
     /** @test */
     public function it_returns_resource_instance()
     {
-        $resource = $this->lastFm->getResource();
+        $http = Mockery::mock(HttpInterface::class);
+        $resource = $this->lastFm->getResource($http);
         $this->assertTrue($resource instanceof ResourceInterface);
     }
 

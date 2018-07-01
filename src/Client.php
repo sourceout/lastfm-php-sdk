@@ -1,6 +1,8 @@
 <?php
 namespace Sourceout\LastFm;
 
+use Sourceout\LastFm\Http\Http;
+use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Services\ServiceFactory;
 use Sourceout\LastFm\Providers\ProviderInterface;
@@ -20,6 +22,15 @@ class Client
     private $providerInterfaces = [
         \Sourceout\LastFm\Providers\ProviderInterface::class,
     ];
+
+    /** @var HttpInterface|null an instance of http used to fetch data */
+    private $http;
+
+
+    public function __construct(HttpInterface $http = null)
+    {
+        $this->http = $http;
+    }
 
     /**
      * Returns a list of registered providers
@@ -80,6 +91,29 @@ class Client
                 "Provider {$class} is not registered"
             );
         }
-        return new ServiceFactory($provider);
+
+        $http = $this->http ?: (new Http());
+        return new ServiceFactory($provider, $http);
+    }
+
+    /**
+     * Setter Method
+     *
+     * @param HttpInterface $http
+     * @return void
+     */
+    public function setHttpClient(HttpInterface $http) : void
+    {
+        $this->http = $http;
+    }
+
+    /**
+     * Getter Method
+     *
+     * @return HttpInterface|null
+     */
+    public function getHttpClient() : ?HttpInterface
+    {
+        return $this->http;
     }
 }

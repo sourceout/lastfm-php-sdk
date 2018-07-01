@@ -3,7 +3,9 @@ namespace Sourceout\LastFm\Tests;
 
 use Mockery;
 use Sourceout\LastFm\Client;
+use Sourceout\LastFm\Http\Http;
 use PHPUnit\Framework\TestCase;
+use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\ProviderInterface;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
@@ -167,11 +169,25 @@ class ClientTest extends TestCase
                     return 'Mock Provider';
                 }
 
-                public function getResource()
+                public function getResource(HttpInterface $http)
                 {
                     return $this->property;
                 }
             });
         $serviceFactory = $client->getServiceFactory($provider);
+    }
+
+    /** @test */
+    public function it_sets_custom_http_client()
+    {
+        $httpClient1 = new Http();
+        $client = new Client($httpClient1);
+        $this->assertSame($client->getHttpClient(), $httpClient1);
+
+        $httpClient2 = new Http();
+        $this->assertNotSame($client->getHttpClient(), $httpClient2);
+        $client->setHttpClient($httpClient2);
+        $this->assertSame($client->getHttpClient(), $httpClient2);
+        $this->assertNotSame($client->getHttpClient(), $httpClient1);
     }
 }

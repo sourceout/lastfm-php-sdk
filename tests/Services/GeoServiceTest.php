@@ -3,6 +3,7 @@ namespace Sourceout\LastFm\Tests\Services;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Services\GeoService;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
@@ -12,11 +13,15 @@ class GeoServiceTest extends TestCase
 {
     private $provider;
 
+    private $http;
+
     public function setUp() {
         $this->provider = Mockery::mock(
             LastFm::class,
             ['api_key' => 'secret_api_key']
         )->makePartial();
+
+        $this->http = Mockery::mock(HttpInterface::class);
     }
 
     /** @test */
@@ -30,7 +35,7 @@ class GeoServiceTest extends TestCase
 
         $this->provider->shouldReceive('getResource')->andReturn($resource);
 
-        $geoService = new GeoService($this->provider);
+        $geoService = new GeoService($this->provider, $this->http);
 
         $topArtists = $geoService->getTopArtists('united states');
         $this->assertEquals('some response', $topArtists);
@@ -51,7 +56,7 @@ class GeoServiceTest extends TestCase
 
         $this->provider->shouldReceive('getResource')->andReturn($resource);
 
-        $geoService = new GeoService($this->provider);
+        $geoService = new GeoService($this->provider, $this->http);
 
         $topArtists = $geoService->getTopTracks('united states');
         $this->assertEquals('some response', $topArtists);

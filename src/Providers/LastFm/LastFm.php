@@ -2,6 +2,7 @@
 namespace Sourceout\LastFm\Providers\LastFm;
 
 use Sourceout\LastFm\Http\Http;
+use Sourceout\LastFm\Http\HttpInterface;
 use Sourceout\LastFm\Providers\GeoInterface;
 use Sourceout\LastFm\Providers\ProviderInterface;
 use Sourceout\LastFm\Providers\ResourceInterface;
@@ -65,8 +66,8 @@ class LastFm implements ProviderInterface
     }
 
     /** @inheritDoc */
-    public function getResource() : ResourceInterface
+    public function getResource(HttpInterface $http)
     {
-        return new Resource($this, new Http());
+        return new Resource($this, $http);
     }
 }

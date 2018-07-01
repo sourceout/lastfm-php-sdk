@@ -2,6 +2,7 @@
 namespace Sourceout\LastFm\Tests\Services;
 
 use PHPUnit\Framework\TestCase;
+use Sourceout\LastFm\Http\Http;
 use Sourceout\LastFm\Services\ServiceFactory;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Services\AbstractService;
@@ -13,7 +14,9 @@ class ServiceFactoryTest extends TestCase
     public function it_returns_an_instance_of_geo_service()
     {
         $lastFm = new LastFm(['api_key' => 'dummy_sample_key']);
-        $serviceFactory = new ServiceFactory($lastFm);
+        $http = new Http();
+
+        $serviceFactory = new ServiceFactory($lastFm, $http);
         $geoService = $serviceFactory->getGeoService();
 
         $this->assertInstanceOf(GeoService::class, $geoService);

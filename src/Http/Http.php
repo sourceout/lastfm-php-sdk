@@ -58,10 +58,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * Setter for Message Factory
-     *
-     * @param MessageFactory $messageFactory
-     * @return void
+     * @inheritDoc
      */
     public function setMessageFactory(MessageFactory $messageFactory) : void
     {
@@ -69,9 +66,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * Getter for Message Factory
-     *
-     * @return MessageFactory
+     * @inheritDoc
      */
     public function getMessageFactory() : MessageFactory
     {

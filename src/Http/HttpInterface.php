@@ -2,6 +2,7 @@
 namespace Sourceout\LastFm\Http;
 
 use Http\Client\HttpClient;
+use Http\Message\MessageFactory;
 use Psr\Http\Message\ResponseInterface;
 
 interface HttpInterface
@@ -37,4 +38,19 @@ interface HttpInterface
      * @return HttpClient
      */
     public function getHttpClient() : HttpClient;
+
+    /**
+     * Setter for Message Factory
+     *
+     * @param MessageFactory $messageFactory
+     * @return void
+     */
+    public function setMessageFactory(MessageFactory $messageFactory) : void;
+
+    /**
+     * Getter for Message Factory
+     *
+     * @return MessageFactory
+     */
+    public function getMessageFactory() : MessageFactory;
 }

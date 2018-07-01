@@ -1,6 +1,8 @@
 <?php
 namespace Sourceout\LastFm\Providers;
 
+use Sourceout\LastFm\Http\HttpInterface;
+
 interface ProviderInterface
 {
     /**
@@ -35,7 +37,8 @@ interface ProviderInterface
     /**
      * Returns back an instance of Resource Factory
      *
+     * @param HttpInterface $http
      * @return ResourceInterface
      */
-    public function getResource();
+    public function getResource(HttpInterface $http);
 }
