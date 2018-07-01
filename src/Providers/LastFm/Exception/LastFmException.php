@@ -22,7 +22,7 @@ class LastFmException extends ClientException
             29 => "Rate limit exceeded - Your IP has made too many requests in a short period "
     ];
 
-    public function __construct($message, $code, $previous=null)
+    public function __construct($message, $code, $previous = null)
     {
         $message = [
             "message" => $this->getErrorMessage($code),

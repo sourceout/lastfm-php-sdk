@@ -26,8 +26,7 @@ class Http implements HttpInterface
         $body = null,
         array $headers = [],
         string $protocolVersion = '1.1'
-    ) : ResponseInterface
-    {
+    ) : ResponseInterface {
         // @codeCoverageIgnoreStart
         $request = $this->getMessageFactory()->createRequest(
             $method,
