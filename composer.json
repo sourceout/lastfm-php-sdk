@@ -27,10 +27,11 @@
     "require-dev": {
         "limedeck/phpunit-detailed-printer": "^3.2",
         "mockery/mockery": "^1.0.0",
+        "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.0",
         "php-http/mock-client": "^1.0",
-        "phpunit/phpunit": "^6.4",
-        "phpdocumentor/phpdocumentor": "^2.9"
+        "phpdocumentor/phpdocumentor": "^2.9",
+        "phpunit/phpunit": "^6.4"
     },
     "autoload": {
         "psr-4": {

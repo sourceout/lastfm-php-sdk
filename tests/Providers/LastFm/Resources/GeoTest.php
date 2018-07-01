@@ -12,8 +12,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Sourceout\LastFm\Providers\LastFm\LastFm;
 use Sourceout\LastFm\Providers\LastFm\Resources\Geo;
-use Sourceout\LastFm\Exception\HttpTransferException;
+use Psr\Http\Message\StreamInterface;
 use Tightenco\Collect\Support\Collection;
+use Sourceout\LastFm\Exception\HttpTransferException;
 use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
 
 class GeoTest extends TestCase
@@ -31,8 +32,21 @@ class GeoTest extends TestCase
         $response = Mockery::mock(ResponseFactory::class);
         $client = new Client($response);
 
-        /** @var ResponseInterface $response */
+        $stream = Mockery::mock(StreamInterface::class);
+        $stream->shouldReceive(
+            ['getContents' => ""]
+        );
+
+        /** @var ResponseInterface|mixed $response */
         $response = Mockery::mock(ResponseInterface::class);
+        $response->shouldReceive(
+            [
+                'getHeaderLine' => 'application/json',
+                'getStatusCode' => 200,
+                'getBody' => $stream
+            ]
+        );
+
         $client->setDefaultResponse($response);
 
         /** @var RequestInterface $request */
@@ -75,7 +89,7 @@ class GeoTest extends TestCase
     public function it_makes_request_for_top_tracks()
     {
         $geo = new Geo($this->provider, $this->http);
-        $response = $geo->getTopTracks('some country');
+        $response = $geo->getTopTracks('some_country');
         $this->assertInstanceOf(Collection::class, $response);
     }
 

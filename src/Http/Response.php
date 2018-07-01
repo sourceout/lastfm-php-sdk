@@ -4,23 +4,34 @@ namespace Sourceout\LastFm\Http;
 use Tightenco\Collect\Support\Collection;
 use Sourceout\LastFm\Http\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
+use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
 
 class Response implements ResponseInterface
 {
     /** @inheritDoc */
     public static function send(
-        PsrResponseInterface $response,
-        $type = 'json'
+        PsrResponseInterface $response
     ) : Collection
     {
-        $response = new Collection([]);
+        $returnValue = new Collection();
 
-        if ($type === 'json') {
-            $response = new Collection(json_encode($response, true));
+        if (strpos($response->getHeaderLine('Content-Type'), 'application/json') !== false) {
+            $contents = json_decode($response->getBody()->getContents(), true);
+            if (
+                ($response->getStatusCode() === 200)
+                && ! isset($contents['error'])
+            ) {
+                $returnValue = new Collection($contents);
+            } else {
+                $code = isset($contents['error'])?$contents['error']:0;
+                $message = isset($contents['message'])?$contents['message']:'';
+                throw new LastFmException($message, $code);
+            }
         } else {
-            throw new \InvalidArgumentException("Invalid response type {$type}");
+            $responseType = $response->getHeaderLine('Content-Type');
+            throw new \InvalidArgumentException("Invalid response type {$responseType}");
         }
 
-        return $response;
+        return $returnValue;
     }
 }

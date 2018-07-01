@@ -18,7 +18,7 @@ interface HttpInterface
      */
     public function sendRequest(
         string $method,
-        string $uri,
+        $uri,
         $body = null,
         array $headers = [],
         string $protocolVersion = '1.1'

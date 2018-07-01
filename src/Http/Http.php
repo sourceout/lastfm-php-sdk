@@ -22,20 +22,28 @@ class Http implements HttpInterface
      */
     public function sendRequest(
         string $method,
-        string $uri,
+        $uri,
         $body = null,
         array $headers = [],
         string $protocolVersion = '1.1'
     ) : ResponseInterface
     {
-        $request = $this->getMessageFactory()->createRequest($method, $uri, $headers, $body, $protocolVersion);
+        // @codeCoverageIgnoreStart
+        $request = $this->getMessageFactory()->createRequest(
+            $method,
+            $uri,
+            $headers,
+            $body,
+            $protocolVersion
+        );
+        // @codeCoverageIgnoreEnd
+
         try {
             return $this->getHttpClient()->sendRequest($request);
         } catch (\Exception $e) {
             throw new HttpTransferException(
                 "Error while requesting data".$e->getMessage(),
-                $e->getCode(),
-                $e
+                $e->getCode()
             );
         }
     }

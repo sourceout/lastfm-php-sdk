@@ -9,8 +9,8 @@ use Sourceout\LastFm\Providers\LastFm\Exception\LastFmException;
 
 class Geo implements GeoInterface
 {
-    const TOP_ARTISTS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists";
-    const TOP_TRACKS_URI = "http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks";
+    const TOP_ARTISTS_URI = "http://ws.audioscrobbler.com/2.0/";
+    const TOP_TRACKS_URI = "http://ws.audioscrobbler.com/2.0/";
 
     /** @var HttpInterface */
     private $http;
@@ -46,10 +46,9 @@ class Geo implements GeoInterface
         int $limit = 50
     ) {
         try {
-            $response = $this->http->sendRequest(
-                'GET',
-                Geo::TOP_ARTISTS_URI,
+            $query = http_build_query(
                 [
+                    'method' => 'geo.gettopartists',
                     'api_key' => $this->provider->getConfig()['api_key'],
                     'country' => $country,
                     'limit' => $limit,
@@ -57,7 +56,7 @@ class Geo implements GeoInterface
                     'format' => 'json'
                 ]
             );
-
+            $response = $this->http->sendRequest('GET', Geo::TOP_ARTISTS_URI, $query);
             return Response::send($response);
         } catch (\Exception $e) {
             throw new LastFmException($e->getMessage(), $e->getCode(), $e);
@@ -72,10 +71,9 @@ class Geo implements GeoInterface
         int $page = 1
     ) {
         try {
-            $response = $this->http->sendRequest(
-                'GET',
-                Geo::TOP_TRACKS_URI,
+            $query = http_build_query(
                 [
+                    'method' => 'geo.gettoptracks',
                     'api_key' => $this->provider->getConfig()['api_key'],
                     'country' => $country,
                     'location' => $location,
@@ -84,6 +82,7 @@ class Geo implements GeoInterface
                     'format' => 'json'
                 ]
             );
+            $response = $this->http->sendRequest('GET', Geo::TOP_TRACKS_URI, $query);
             return Response::send($response);
         } catch (\Exception $e) {
             throw new LastFmException($e->getMessage(), $e->getCode(), $e);
