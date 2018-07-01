@@ -70,6 +70,7 @@ $lastFmClient = new LastFmClient($http);
 // Method 2
 $lastFmClient->setHttpClient($http);
 ```
+
 ## Tests
 You can run the tests with:
 ```bash
