@@ -77,10 +77,10 @@ vendor/bin/phpunit
 ```
 
 ## Contributing
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING) for details.
 
 ## Security
 In case, you discover any security related issues, please email pulkit.swarup[at]gmail.com instead of using the issue tracker.
 
 ## License
-Please see [License File](LICENSE.md) for more information.
+Please see [License File](LICENSE) for more information.
