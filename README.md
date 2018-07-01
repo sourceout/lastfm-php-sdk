@@ -53,6 +53,23 @@ $lastFmClient->registerCustomProviders(
     ]
 );
 ```
+
+Additionally, although the package features auto-discovery of http package/client, you can also set your own Http Client as well, for e.g.
+
+```php
+use Sourceout\LastFm\Http\Http;
+use Sourceout\LastFm\Client as LastFmClient;
+
+$http = new Http();
+$http->setHttpClient($customHttpClient);
+$http->setMessageFactory($customMessageFactory);
+
+// Method 1
+$lastFmClient = new LastFmClient($http);
+
+// Method 2
+$lastFmClient->setHttpClient($http);
+```
 ## Tests
 You can run the tests with:
 ```bash
