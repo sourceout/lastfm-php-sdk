@@ -17,12 +17,12 @@ class Response implements ResponseInterface
             $contents = json_decode($response->getBody()->getContents(), true);
             if (
                 ($response->getStatusCode() === 200)
-                && ! isset($contents['error'])
+                && !isset($contents['error'])
             ) {
                 return new Collection($contents);
             } else {
-                $code = isset($contents['error'])?$contents['error']:0;
-                $message = isset($contents['message'])?$contents['message']:'';
+                $code = isset($contents['error']) ? $contents['error'] : 0;
+                $message = isset($contents['message']) ? $contents['message'] : '';
                 throw new LastFmException($message, $code);
             }
         } else {
