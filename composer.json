@@ -27,11 +27,17 @@
     "require-dev": {
         "limedeck/phpunit-detailed-printer": "^3.2",
         "mockery/mockery": "^1.0.0",
-        "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.0",
         "php-http/mock-client": "^1.0",
         "phpdocumentor/phpdocumentor": "^2.9",
         "phpunit/phpunit": "^6.4"
+    },
+    "suggest": {
+        "php-http/guzzle6-adapter": "Library depends on HTTPlug, it requires virtual package php-http/client-implementation",
+        "php-http/message": "Required by HTTP Client Libraries for PSR-7 Implementation",
+        "guzzlehttp/psr7": "Option 1: Message Factory required by HTTP Client to create messages",
+        "zendframework/zend-diactoros": "Option 2: Message Factory required by HTTP Client to create messages",
+        "slim/slim": "Option 2: Message Factory required by HTTP Client to create messages"
     },
     "autoload": {
         "psr-4": {
