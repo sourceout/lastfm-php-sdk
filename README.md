@@ -1,5 +1,5 @@
 # Last.fm SDK for PHP
-[![Github Release](https://img.shields.io/github/release/sourceout/lastfm-php-sdk.svg)
+[![Latest Version](https://img.shields.io/github/release/sourceout/lastfm-php-sdk.svg)
 ](https://github.com/sourceout/lastfm-php-sdk/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md) [![Build Status](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sourceout/lastfm-php-sdk/?branch=master)
 
